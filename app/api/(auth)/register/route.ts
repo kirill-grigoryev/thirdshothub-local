@@ -6,14 +6,28 @@ import { NextResponse } from "next/server";
 export const POST = async (req: Request) => {
   try {
     const { email, password, name } = await req.json();
-    console.log({ email, password, name });
     await connectToDb();
+
+    const userRole = await prisma.role.findFirst({
+      where: {
+        value: "user",
+      },
+    });
+
+    if (!userRole) {
+      return NextResponse.json({ message: "Can't find role" }, { status: 500 });
+    }
 
     await prisma.user.create({
       data: {
         email,
         name,
         password: await bcrypt.hash(password, 5),
+        roles: {
+          connect: {
+            id: userRole.id,
+          },
+        },
       },
     });
 

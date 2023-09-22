@@ -26,19 +26,26 @@ export const authConfig: AuthOptions = {
 
         await prisma.$disconnect();
 
-        if (
-          user &&
-          bcrypt.compareSync(credentials.password, user.password)
-        ) {
+        if (user && bcrypt.compareSync(credentials.password, user.password)) {
           const { password, ...userWithoutPass } = user;
 
-          return userWithoutPass;
+          return { ...userWithoutPass, role: ["user", "admin"] } as User;
         }
 
         return null;
       },
     }),
   ],
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) token.role = user.role;
+      return token;
+    },
+    session({ session, token }) {
+      if (session.user) session.user.role = token.role;
+      return session;
+    },
+  },
   pages: {
     signIn: "/signin",
   },
