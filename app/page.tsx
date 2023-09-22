@@ -6,11 +6,9 @@ import { useSession, signOut } from "next-auth/react";
 export default function Home() {
   const session = useSession();
 
-  console.log(session);
-
   return (
     <main>
-      <button onClick={() => signOut({callbackUrl: '/'})}>logout</button>
+      <h1>Present page</h1>
     </main>
   );
 }
