@@ -5,7 +5,11 @@ import { NextResponse } from "next/server";
 
 export const POST = async (req: Request) => {
   try {
-    const { email, password, name } = await req.json();
+    const {
+      email,
+      password,
+      name,
+    }: { email: string; password: string; name: string } = await req.json();
     await connectToDb();
 
     const userRole = await prisma.role.findFirst({
@@ -25,8 +29,8 @@ export const POST = async (req: Request) => {
         password: await bcrypt.hash(password, 5),
         roles: {
           connect: {
-            id: userRole.id,
-          },
+            value: 'user'
+          }
         },
       },
     });
