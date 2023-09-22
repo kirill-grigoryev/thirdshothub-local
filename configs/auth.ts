@@ -22,6 +22,9 @@ export const authConfig: AuthOptions = {
           where: {
             email: credentials.email,
           },
+          include: {
+            roles: true,
+          },
         });
 
         await prisma.$disconnect();
@@ -29,7 +32,10 @@ export const authConfig: AuthOptions = {
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
           const { password, ...userWithoutPass } = user;
 
-          return { ...userWithoutPass, role: ["user", "admin"] } as User;
+          return {
+            ...userWithoutPass,
+            role: user.roles.map((role) => role.value),
+          } as User;
         }
 
         return null;

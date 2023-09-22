@@ -1,3 +1,3 @@
 export { default } from "next-auth";
 
-export const config = { matcher: ["/protecterd/:path*"] };
+export const config = { matcher: ["/test"] };
