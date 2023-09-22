@@ -1,9 +1,10 @@
 import Link from "next/link";
 import SignOutButton from "./SignOutButton";
 import { getServerSession } from "next-auth";
+import { authConfig } from "@/configs/auth";
 
 const Header = async () => {
-  const session = await getServerSession();
+  const session = await getServerSession(authConfig);
 
   console.log(session);
 
