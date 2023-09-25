@@ -1,11 +1,11 @@
 import prisma from "@/prisma";
 import { connectToDb } from "@/utils";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // PATCH Update court in location
 export const PATCH = async (
   req: Request,
-  { params }: { params: { courtId: string } }
+  { params }: { params: { locationId: string; courtId: string } }
 ) => {
   try {
     const { name, default_price }: { name?: string; default_price?: number } =
@@ -34,7 +34,11 @@ export const PATCH = async (
 };
 
 // GET court by court ID.
-export const GET = async ({ params }: { params: { courtId: string } }) => {
+export const GET = async (req: NextRequest, {
+  params,
+}: {
+  params: { locationId: string; courtId: string };
+}) => {
   try {
     const { courtId } = params;
 

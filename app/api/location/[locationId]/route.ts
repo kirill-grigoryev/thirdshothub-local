@@ -1,6 +1,6 @@
 import { connectToDb } from "@/utils";
 import prisma from "@/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const PATCH = async (
   req: Request,
@@ -37,7 +37,7 @@ export const PATCH = async (
   }
 };
 
-export const GET = async ({ params }: { params: { locationId: string } }) => {
+export const GET = async (req: NextRequest, { params }: { params: { locationId: string } }) => {
   try {
     const id = params.locationId;
 

@@ -1,6 +1,6 @@
 import { connectToDb } from "@/utils";
 import prisma from "@/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // POST Crate court for location
 export const POST = async (
@@ -49,7 +49,7 @@ export const POST = async (
 };
 
 // GET courts by location ID.
-export const GET = async ({ params }: { params: { locationId: string } }) => {
+export const GET = async (req: NextRequest, { params }: { params: { locationId: string } }) => {
   try {
     const id = params.locationId;
 
