@@ -1,5 +1,5 @@
-enum Roles {
+export enum Roles {
   user,
   admin,
-  superadmin,
+  superadmin
 }

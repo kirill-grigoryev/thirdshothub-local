@@ -1,3 +1,60 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": ["react"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "no-underscore-dangle": "off",
+    "arrow-body-style": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "no-console": "off",
+    "no-param-reassign": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/jsx-indent-props": [2, 2],
+    "react/jsx-closing-bracket-location": [2, "tag-aligned"],
+    "@typescript-eslint/no-inferrable-types": "off",
+    "no-inferrable-types": "off",
+    "import/prefer-default-export": "off",
+    "prettier/prettier": "off",
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": "if", "next": "*" },
+      { "blankLine": "always", "prev": "*", "next": "if" }
+    ],
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ],
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ]
+  }
 }

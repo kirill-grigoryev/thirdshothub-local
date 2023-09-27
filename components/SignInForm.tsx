@@ -1,30 +1,33 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
-import type { FormEventHandler } from "react";
-import Link from "next/link";
+import { useState, type FormEventHandler } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+
+import Link from 'next/link';
 
 const SignInForm = () => {
   const router = useRouter();
 
+  const [error, setError] = useState(false);
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
+    setError(false);
+
     const formData = new FormData(event.currentTarget);
 
-    const res = await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      redirect: false,
+    const res = await signIn('credentials', {
+      email: formData.get('email'),
+      password: formData.get('password'),
+      redirect: false
     });
 
     if (res && !res.error) {
-      router.push("/");
+      router.push('/');
     } else {
-      // TODO add error state
-      
-      console.log(res);
+      setError(true);
     }
   };
 
@@ -33,6 +36,7 @@ const SignInForm = () => {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            {error ? <h2 className='text-sm font-medium text-red-900'>Incorrect login or password</h2> : null}
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign In to your account
             </h1>

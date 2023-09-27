@@ -1,16 +1,16 @@
-import Link from "next/link";
-import SignOutButton from "./SignOutButton";
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/configs/auth";
+'use client';
 
-const Header = async () => {
-  const session = await getServerSession(authConfig);
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
-  console.log(session);
+import SignOutButton from './SignOutButton';
+
+const Header = () => {
+  const session = useSession();
 
   return (
     <header>
-      <div className="bg-gray-100 border-b border-gray-200">
+      <div className="bg-gray-100 border-b border-gray-200 z-10">
         <div className="px-4 mx-auto sm:px-6 lg:px-8">
           <nav className="relative flex items-center justify-between h-16 lg:h-20">
             <div className="hidden lg:flex lg:items-center lg:space-x-10">
@@ -25,7 +25,7 @@ const Header = async () => {
               </div>
             </div>
 
-            {session?.user ? (
+            {session?.data?.user ? (
               <SignOutButton />
             ) : (
               <div className="hidden lg:flex lg:items-center lg:space-x-10">

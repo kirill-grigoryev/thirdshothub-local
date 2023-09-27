@@ -1,13 +1,9 @@
-'use client'
-
-import { getServerSession } from "next-auth";
-import { useSession, signOut } from "next-auth/react";
+import Header from "@/components/Header";
 
 export default function Home() {
-  const session = useSession();
-
   return (
     <main>
+      <Header />
       <h1>Present page</h1>
     </main>
   );
