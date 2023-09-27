@@ -2,12 +2,9 @@ import bcrypt from 'bcryptjs';
 
 // Utils
 import prisma from '@/prisma';
-import { connectToDb } from '@/utils';
 
 export const getAllUsers = async () => {
   try {
-    await connectToDb();
-
     const users = await prisma.user.findMany();
 
     const result = users.map((user) => {
@@ -25,8 +22,6 @@ export const getAllUsers = async () => {
 
 export const getAllusersByLocation = async (locationId: string) => {
   try {
-    await connectToDb();
-
     const location = await prisma.location.findUnique({
       include: { users: true },
       where: { id: locationId }
@@ -51,8 +46,6 @@ export const getAllusersByLocation = async (locationId: string) => {
 
 export const getAllAdmins = async () => {
   try {
-    await connectToDb();
-
     const users = await prisma.user.findMany({
       where: {
         roles: {
@@ -78,8 +71,6 @@ export const getAllAdmins = async () => {
 
 export const getAllAdminsByLocation = async (locationId: string) => {
   try {
-    await connectToDb();
-
     const users = await prisma.user.findMany({
       where: {
         roles: {
@@ -115,8 +106,6 @@ export const createUser = async (
   name: string
 ) => {
   try {
-    await connectToDb();
-
     const user = await prisma.user.create({
       data: {
         email,
@@ -148,8 +137,6 @@ export const createUser = async (
 
 export const addRoleToUser = async (roleId: string, userId: string) => {
   try {
-    connectToDb();
-
     await prisma.user.update({
       where: {
         id: userId
@@ -170,8 +157,6 @@ export const addRoleToUser = async (roleId: string, userId: string) => {
 
 export const removeRoleFromUser = async (roleId: string, userId: string) => {
   try {
-    connectToDb();
-
     await prisma.user.update({
       where: {
         id: userId
@@ -192,8 +177,6 @@ export const removeRoleFromUser = async (roleId: string, userId: string) => {
 
 export const addLocationToUser = async (locationId: string, userId: string) => {
   try {
-    connectToDb();
-
     await prisma.user.update({
       where: {
         id: userId
@@ -217,8 +200,6 @@ export const removeUserFromLocation = async (
   userId: string
 ) => {
   try {
-    connectToDb();
-
     await prisma.user.update({
       where: {
         id: userId

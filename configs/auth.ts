@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 import type { AuthOptions, User } from 'next-auth';
 
 import prisma from '@/prisma';
-import { connectToDb } from '@/utils';
 
 export const authConfig: AuthOptions = {
   providers: [
@@ -15,8 +14,6 @@ export const authConfig: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) return null;
-
-        await connectToDb();
 
         const user = await prisma.user.findFirst({
           where: {

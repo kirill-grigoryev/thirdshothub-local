@@ -1,11 +1,8 @@
 // Utils
 import prisma from '@/prisma';
-import { connectToDb } from '@/utils';
 
 export const getAllCourts = async () => {
   try {
-    await connectToDb();
-
     const courts = await prisma.court.findMany({
       include: {
         location: true
@@ -21,8 +18,6 @@ export const getAllCourts = async () => {
 
 export const getCourtById = async (courtId: string) => {
   try {
-    await connectToDb();
-
     const court = await prisma.court.findUnique({
       where: {
         id: courtId
@@ -38,8 +33,6 @@ export const getCourtById = async (courtId: string) => {
 
 export const getAllCourtsByLocationId = async (locationId: string) => {
   try {
-    await connectToDb();
-
     const courts = await prisma.court.findMany({
       where: {
         locationId
@@ -59,8 +52,6 @@ export const createCourt = async (
   defaultPrice: number
 ) => {
   try {
-    await connectToDb();
-
     const createdCourt = await prisma.court.create({
       data: {
         name,
@@ -86,8 +77,6 @@ export const updateCourt = async (
   defaultPrice?: number
 ) => {
   try {
-    await connectToDb();
-
     const updatedCourt = await prisma.court.update({
       where: {
         id: courtId
