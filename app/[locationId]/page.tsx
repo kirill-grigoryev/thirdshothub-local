@@ -1,7 +1,7 @@
 import { getAllLocations } from '@/services/locationService';
 
 export const generateStaticParams = async () => {
-  const res = await (await getAllLocations());
+  const res = await getAllLocations();
 
   return res.map((location: { id: string }) => ({
     locationId: location.id,
