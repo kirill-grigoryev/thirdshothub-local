@@ -1,7 +1,7 @@
+import { getAllUsers } from '@/services/userService';
+
 const Players = async () => {
-  const playersList = await (
-    await (await import("@/app/api/user/route")).GET()
-  ).json();
+  const playersList = await getAllUsers();
 
   return (
     <>
@@ -11,14 +11,15 @@ const Players = async () => {
           <th>Name</th>
           <th>Email</th>
         </tr>
-        {playersList.map(
-          (player: { id: string; name: string; email: string }) => (
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={player.id}>
-              <td>{player.name}</td>
-              <td>{player.email}</td>
-            </tr>
-          )
-        )}
+        {playersList.map((player) => (
+          <tr
+            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+            key={player.id}
+          >
+            <td>{player.name}</td>
+            <td>{player.email}</td>
+          </tr>
+        ))}
       </table>
     </>
   );
