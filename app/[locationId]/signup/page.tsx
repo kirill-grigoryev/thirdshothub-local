@@ -30,7 +30,7 @@ const Register = ({
           name,
           email,
           password,
-          locationId: params.
+          locationId: params.locationId
         }),
       });
 
