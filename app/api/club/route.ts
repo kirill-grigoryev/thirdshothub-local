@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // Services
-import { createLocation, getAllLocations } from '@/services/locationService';
+import { createClub, getAllClubs } from '@/services/ClubService';
 
 export const POST = async (req: Request) => {
   try {
@@ -12,9 +12,9 @@ export const POST = async (req: Request) => {
     }: { name: string; description: string; location: string } =
       await req.json();
 
-    const createdLocation = await createLocation(name, description, location);
+    const createdClub = await createClub(name, description, location);
     
-    return NextResponse.json(createdLocation, { status: 200 });
+    return NextResponse.json(createdClub, { status: 200 });
   } catch (e) {
     return NextResponse.json({ e }, { status: 401 });
   }
@@ -22,9 +22,9 @@ export const POST = async (req: Request) => {
 
 export const GET = async () => {
   try {
-    const locations = await getAllLocations();
+    const clubs = await getAllClubs();
 
-    return NextResponse.json(locations, { status: 200 });
+    return NextResponse.json(clubs, { status: 200 });
   } catch (e) {
     return NextResponse.json({ e }, { status: 500 });
   }

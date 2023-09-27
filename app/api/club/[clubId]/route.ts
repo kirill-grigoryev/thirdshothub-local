@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Services
-import { getLocationById, updateLocation } from '@/services/locationService';
+import { getClubById, updateClub } from '@/services/ClubService';
 
 export const PATCH = async (
   req: Request,
-  { params }: { params: { locationId: string } }
+  { params }: { params: { clubId: string } }
 ) => {
   try {
     const {
@@ -15,11 +15,11 @@ export const PATCH = async (
     }: { name?: string; description?: string; location?: string } =
       await req.json();
 
-    const id = params.locationId;
+    const id = params.clubId;
 
-    const updatedLocation = updateLocation(id, name, description, location);
+    const updatedClub = updateClub(id, name, description, location);
 
-    return NextResponse.json(updatedLocation, { status: 200 });
+    return NextResponse.json(updatedClub, { status: 200 });
   } catch (e) {
     return NextResponse.json({ e }, { status: 401 });
   }
@@ -27,21 +27,21 @@ export const PATCH = async (
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { locationId: string } }
+  { params }: { params: { clubId: string } }
 ) => {
   try {
-    const id = params.locationId;
+    const id = params.clubId;
 
-    const location = await getLocationById(id);
+    const club = await getClubById(id);
 
-    if (!location) {
+    if (!club) {
       return NextResponse.json(
-        { message: `Can't find location with id: ${id}` },
+        { message: `Can't find club with id: ${id}` },
         { status: 500 }
       );
     }
 
-    return NextResponse.json(location, { status: 200 });
+    return NextResponse.json(club, { status: 200 });
   } catch (e) {
     return NextResponse.json({ e }, { status: 500 });
   }

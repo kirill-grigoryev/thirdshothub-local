@@ -9,10 +9,10 @@ export const POST = async (req: Request) => {
       email,
       password,
       name,
-      locationId,
-    }: { email: string; password: string; name: string, locationId: string } = await req.json();
+      clubId,
+    }: { email: string; password: string; name: string, clubId: string } = await req.json();
     
-    const createdUser = await createUser(email, password, locationId, name);
+    const createdUser = await createUser(email, password, clubId, name);
 
     return NextResponse.json({ user: createdUser }, { status: 200 });
   } catch (e) {

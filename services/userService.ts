@@ -20,14 +20,14 @@ export const getAllUsers = async () => {
   }
 };
 
-export const getAllusersByLocation = async (locationId: string) => {
+export const getAllusersByClub = async (clubId: string) => {
   try {
-    const location = await prisma.location.findUnique({
+    const club = await prisma.club.findUnique({
       include: { users: true },
-      where: { id: locationId }
+      where: { id: clubId }
     });
 
-    const users = location?.users;
+    const users = club?.users;
 
     if (!users) return [];
 
@@ -69,7 +69,7 @@ export const getAllAdmins = async () => {
   }
 };
 
-export const getAllAdminsByLocation = async (locationId: string) => {
+export const getAllAdminsByClub = async (clubId: string) => {
   try {
     const users = await prisma.user.findMany({
       where: {
@@ -78,9 +78,9 @@ export const getAllAdminsByLocation = async (locationId: string) => {
             value: 'admin'
           }
         },
-        locations: {
+        clubs: {
           some: {
-            id: locationId
+            id: clubId
           }
         }
       }
@@ -102,7 +102,7 @@ export const getAllAdminsByLocation = async (locationId: string) => {
 export const createUser = async (
   email: string,
   password: string,
-  locationId: string,
+  clubId: string,
   name: string
 ) => {
   try {
@@ -116,9 +116,9 @@ export const createUser = async (
             value: 'user'
           }
         },
-        locations: {
+        clubs: {
           connect: {
-            id: locationId
+            id: clubId
           }
         }
       }
@@ -175,16 +175,16 @@ export const removeRoleFromUser = async (roleId: string, userId: string) => {
   }
 };
 
-export const addLocationToUser = async (locationId: string, userId: string) => {
+export const addClubToUser = async (clubId: string, userId: string) => {
   try {
     await prisma.user.update({
       where: {
         id: userId
       },
       data: {
-        locations: {
+        clubs: {
           connect: {
-            id: locationId
+            id: clubId
           }
         }
       }
@@ -195,8 +195,8 @@ export const addLocationToUser = async (locationId: string, userId: string) => {
   }
 };
 
-export const removeUserFromLocation = async (
-  locationId: string,
+export const removeUserFromClub = async (
+  clubId: string,
   userId: string
 ) => {
   try {
@@ -205,9 +205,9 @@ export const removeUserFromLocation = async (
         id: userId
       },
       data: {
-        locations: {
+        clubs: {
           disconnect: {
-            id: locationId
+            id: clubId
           }
         }
       }

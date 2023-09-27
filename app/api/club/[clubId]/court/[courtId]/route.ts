@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 // Services
 import { getCourtById, updateCourt } from '@/services/courtService';
 
-// PATCH Update court in location
+// PATCH Update court in club
 export const PATCH = async (
   req: Request,
-  { params }: { params: { locationId: string; courtId: string } }
+  { params }: { params: { clubId: string; courtId: string } }
 ) => {
   try {
     const { name, defaultPrice }: { name?: string; defaultPrice?: number } =
@@ -28,7 +28,7 @@ export const GET = async (
   {
     params
   }: {
-    params: { locationId: string; courtId: string };
+    params: { clubId: string; courtId: string };
   }
 ) => {
   try {

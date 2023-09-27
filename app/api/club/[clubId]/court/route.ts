@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Services
-import { createCourt, getAllCourtsByLocationId } from '@/services/courtService';
+import { createCourt, getAllCourtsByClubId } from '@/services/courtService';
 
-// POST Crate court for location
+// POST Crate court for club
 export const POST = async (
   req: Request,
-  { params }: { params: { locationId: string } }
+  { params }: { params: { clubId: string } }
 ) => {
   try {
     const { name, defaultPrice }: { name: string; defaultPrice: number } =
       await req.json();
 
-    const id = params.locationId;
+    const id = params.clubId;
 
     const createdCourt = await createCourt(id, name, defaultPrice);
 
@@ -22,15 +22,15 @@ export const POST = async (
   }
 };
 
-// GET courts by location ID.
+// GET courts by club ID.
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { locationId: string } }
+  { params }: { params: { clubId: string } }
 ) => {
   try {
-    const id = params.locationId;
+    const id = params.clubId;
 
-    const courts = getAllCourtsByLocationId(id);
+    const courts = getAllCourtsByClubId(id);
 
     return NextResponse.json(courts, { status: 200 });
   } catch (e) {

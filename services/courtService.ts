@@ -5,7 +5,7 @@ export const getAllCourts = async () => {
   try {
     const courts = await prisma.court.findMany({
       include: {
-        location: true
+        club: true
       }
     });
 
@@ -31,11 +31,11 @@ export const getCourtById = async (courtId: string) => {
   }
 };
 
-export const getAllCourtsByLocationId = async (locationId: string) => {
+export const getAllCourtsByClubId = async (clubId: string) => {
   try {
     const courts = await prisma.court.findMany({
       where: {
-        locationId
+        clubId
       }
     });
 
@@ -47,7 +47,7 @@ export const getAllCourtsByLocationId = async (locationId: string) => {
 };
 
 export const createCourt = async (
-  locationId: string,
+  clubId: string,
   name: string,
   defaultPrice: number
 ) => {
@@ -56,9 +56,9 @@ export const createCourt = async (
       data: {
         name,
         default_price: defaultPrice,
-        location: {
+        club: {
           connect: {
-            id: locationId
+            id: clubId
           }
         }
       }

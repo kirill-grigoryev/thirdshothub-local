@@ -2,7 +2,7 @@
 
 import { FormEventHandler, useState } from 'react';
 
-const CreateLocationForm = () => {
+const CreateClubForm = () => {
   const [error, setError] = useState(false);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
@@ -12,13 +12,13 @@ const CreateLocationForm = () => {
 
     const formData = new FormData(event.currentTarget);
 
-    const res = await fetch('/api/location', {
+    const res = await fetch('/api/club', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        name: formData.get('location-name'),
+        name: formData.get('club-name'),
         description: formData.get('Description'),
         location: formData.get('location')
       })
@@ -37,16 +37,16 @@ const CreateLocationForm = () => {
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label
-              htmlFor="location-name"
+              htmlFor="club-name"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
-              Location name
+              Club name
             </label>
             <div className="mt-2.5">
               <input
                 type="text"
-                name="location-name"
-                id="location-name"
+                name="club-name"
+                id="club-name"
                 autoComplete="given-name"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -91,7 +91,7 @@ const CreateLocationForm = () => {
             type="submit"
             className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Create location
+            Create club
           </button>
         </div>
       </form>
@@ -99,4 +99,4 @@ const CreateLocationForm = () => {
   );
 };
 
-export default CreateLocationForm;
+export default CreateClubForm;
