@@ -1,10 +1,10 @@
-export const generateStaticParams = async () => {
-  const locations = await import('@/app/api/location/route');
+import { getAllLocations } from '@/services/locationService';
 
-  const res = await (await (locations.GET())).json();
+export const generateStaticParams = async () => {
+  const res = await (await getAllLocations());
 
   return res.map((location: { id: string }) => ({
-    slug: location.id,
+    locationId: location.id,
   }));
 };
 
