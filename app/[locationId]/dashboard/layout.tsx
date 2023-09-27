@@ -1,12 +1,11 @@
-"use client";
+'use client';
 
-import AdminNavigation from "@/components/AdminNavigation";
-import SuperAdminNavigation from "@/components/SuperAdminNavigation";
-import { useSession } from "next-auth/react";
-import { useParams , useRouter } from "next/navigation";
+import AdminNavigation from '@/components/AdminNavigation';
+import { useSession } from 'next-auth/react';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function DashboardLayout({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {
@@ -15,15 +14,15 @@ export default function DashboardLayout({
 
   const session = useSession();
 
-  if (session.status === "loading") {
+  if (session.status === 'loading') {
     return <h1>Loading...</h1>;
   }
 
- if (
-    session.status === "unauthenticated" ||
-      session.data?.user.role.includes("user")
+  if (
+    session.status === 'unauthenticated' ||
+    session.data?.user.role.includes('user')
   ) {
-    router.push("/");
+    router.push('/');
   } else
     return (
       <>
@@ -34,10 +33,10 @@ export default function DashboardLayout({
         >
           <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
             <ul className="space-y-2 font-medium">
-              {session.data?.user.role.includes("admin") ? (
-                <AdminNavigation path={locationId.toString()} />
+              {session.data?.user.role.includes('admin') ? (
+                <AdminNavigation path={locationId.toString()} userRole="admin" />
               ) : (
-                <SuperAdminNavigation path={locationId.toString()} />
+                <AdminNavigation path={locationId.toString()} userRole="superadmin" />
               )}
             </ul>
           </div>
