@@ -1,12 +1,9 @@
 "use client";
 
 import AdminNavigation from "@/components/AdminNavigation";
-import { NavbarItemLink } from "@/components/NavbarItemLink";
 import SuperAdminNavigation from "@/components/SuperAdminNavigation";
-import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useParams , useRouter } from "next/navigation";
 
 export default function DashboardLayout({
   children,
@@ -20,7 +17,9 @@ export default function DashboardLayout({
 
   if (session.status === "loading") {
     return <h1>Loading...</h1>;
-  } else if (
+  }
+
+ if (
     session.status === "unauthenticated" ||
       session.data?.user.role.includes("user")
   ) {

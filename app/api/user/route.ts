@@ -1,32 +1,17 @@
-import { authConfig } from "@/configs/auth";
-import prisma from "@/prisma";
-import { connectToDb } from "@/utils";
-import { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
-import { getServerSession } from "next-auth/next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const GET = async (req: NextApiRequest, res: NextApiResponse) => {
+// Services
+import { getAllUsers } from "@/services/userService";
+
+export const GET = async () => {
   try {
 
-    const session = await getServerSession(req, res, authConfig)
-
-    console.log(session);
-
-    await connectToDb();
-
-    const users = await prisma.user.findMany();
-
-    const result = users.map((user) => {
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
-    });
+    const result = await getAllUsers();
 
     return NextResponse.json(result, { status: 200 });
-  } catch (e: any) {
+  } catch (e) {
     console.error(e);
+
     return NextResponse.json({ e }, { status: 500 });
-  } finally {
-    prisma.$disconnect();
   }
 };

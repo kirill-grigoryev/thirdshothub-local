@@ -1,6 +1,7 @@
-import { connectToDb } from "@/utils";
-import prisma from "@/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
+
+// Services
+import { createCourt, getAllCourtsByLocationId } from '@/services/courtService';
 
 // POST Crate court for location
 export const POST = async (
@@ -8,75 +9,31 @@ export const POST = async (
   { params }: { params: { locationId: string } }
 ) => {
   try {
-    const { name, default_price }: { name: string; default_price: number } =
+    const { name, defaultPrice }: { name: string; defaultPrice: number } =
       await req.json();
 
     const id = params.locationId;
 
-    await connectToDb();
+    const createdCourt = await createCourt(id, name, defaultPrice);
 
-    const location = await prisma.location.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    if (!location) {
-      return NextResponse.json(
-        { message: `Can't find location with id: ${id}` },
-        { status: 404 }
-      );
-    }
-
-    const createdLocation = await prisma.court.create({
-      data: {
-        name,
-        default_price,
-        location: {
-          connect: {
-            id: location.id,
-          },
-        },
-      },
-    });
-
-    return NextResponse.json(createdLocation, { status: 200 });
-  } catch (e: any) {
+    return NextResponse.json(createdCourt, { status: 201 });
+  } catch (e) {
     return NextResponse.json({ e }, { status: 401 });
-  } finally {
-    prisma.$disconnect();
   }
 };
 
 // GET courts by location ID.
-export const GET = async (req: NextRequest, { params }: { params: { locationId: string } }) => {
+export const GET = async (
+  req: NextRequest,
+  { params }: { params: { locationId: string } }
+) => {
   try {
     const id = params.locationId;
 
-    await connectToDb();
+    const courts = getAllCourtsByLocationId(id);
 
-    const location = await prisma.location.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        courts: true,
-      },
-    });
-
-    if (!location) {
-      return NextResponse.json(
-        { message: `Can't find location with id: ${id}` },
-        { status: 404 }
-      );
-    }
-
-    const locationCourts = location.courts;
-
-    return NextResponse.json(locationCourts, { status: 200 });
-  } catch (e: any) {
+    return NextResponse.json(courts, { status: 200 });
+  } catch (e) {
     return NextResponse.json({ e }, { status: 500 });
-  } finally {
-    prisma.$disconnect();
   }
 };

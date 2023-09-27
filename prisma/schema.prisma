@@ -13,14 +13,14 @@ model User {
   name      String
   email     String     @unique
   password  String
-  roles     Role[]
-  locations Location[]
+  locations Location[] @relation("LocationToUser")
+  roles     Role[]     @relation("RoleToUser")
 }
 
 model Role {
   id    String @id @default(uuid())
   value String @unique
-  users User[]
+  users User[] @relation("RoleToUser")
 }
 
 model Location {
@@ -28,14 +28,14 @@ model Location {
   name        String  @unique
   description String
   location    String
-  users       User[]
-  courts       Court[]
+  courts      Court[]
+  users       User[]  @relation("LocationToUser")
 }
 
 model Court {
   id            String   @id @default(uuid())
   name          String
   default_price Int
-  location      Location @relation(fields: [locationId], references: [id])
   locationId    String
+  location      Location @relation(fields: [locationId], references: [id])
 }

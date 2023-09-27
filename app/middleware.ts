@@ -1,3 +1,1 @@
-export { default } from "next-auth";
-
-export const config = { matcher: ["/test"] };
+export { default } from 'next-auth';

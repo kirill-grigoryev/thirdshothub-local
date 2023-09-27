@@ -12,11 +12,8 @@ const Register = () => {
 
     const formData = new FormData(event.currentTarget);
 
-    //@ts-ignore
     const name = formData.get("name");
-    //@ts-ignore
     const email = formData.get("email");
-    //@ts-ignore
     const password = formData.get("password");
 
     try {

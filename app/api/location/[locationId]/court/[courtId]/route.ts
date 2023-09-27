@@ -1,6 +1,7 @@
-import prisma from "@/prisma";
-import { connectToDb } from "@/utils";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
+
+// Services
+import { getCourtById, updateCourt } from '@/services/courtService';
 
 // PATCH Update court in location
 export const PATCH = async (
@@ -8,47 +9,32 @@ export const PATCH = async (
   { params }: { params: { locationId: string; courtId: string } }
 ) => {
   try {
-    const { name, default_price }: { name?: string; default_price?: number } =
+    const { name, defaultPrice }: { name?: string; defaultPrice?: number } =
       await req.json();
 
     const { courtId } = params;
 
-    await connectToDb();
+    const updatedCourt = await updateCourt(courtId, name, defaultPrice);
 
-    const createdLocation = await prisma.court.update({
-      where: {
-        id: courtId,
-      },
-      data: {
-        name,
-        default_price,
-      },
-    });
-
-    return NextResponse.json(createdLocation, { status: 200 });
-  } catch (e: any) {
+    return NextResponse.json(updatedCourt, { status: 200 });
+  } catch (e) {
     return NextResponse.json({ e }, { status: 401 });
-  } finally {
-    prisma.$disconnect();
   }
 };
 
 // GET court by court ID.
-export const GET = async (req: NextRequest, {
-  params,
-}: {
-  params: { locationId: string; courtId: string };
-}) => {
+export const GET = async (
+  req: NextRequest,
+  {
+    params
+  }: {
+    params: { locationId: string; courtId: string };
+  }
+) => {
   try {
     const { courtId } = params;
 
-    await connectToDb();
-
-    const court = await prisma.court.findUnique({
-      where: {
-        id: courtId,
-      },
-    });
+    const court = getCourtById(courtId);
 
     if (!court) {
       return NextResponse.json(
@@ -58,9 +44,7 @@ export const GET = async (req: NextRequest, {
     }
 
     return NextResponse.json(court, { status: 200 });
-  } catch (e: any) {
+  } catch (e) {
     return NextResponse.json({ e }, { status: 500 });
-  } finally {
-    prisma.$disconnect();
   }
 };

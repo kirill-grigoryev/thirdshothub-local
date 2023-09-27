@@ -1,47 +1,31 @@
-import { connectToDb } from "@/utils";
-import prisma from "@/prisma";
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
+
+// Services
+import { createLocation, getAllLocations } from '@/services/locationService';
 
 export const POST = async (req: Request) => {
   try {
     const {
       name,
       description,
-      location,
+      location
     }: { name: string; description: string; location: string } =
       await req.json();
-    await connectToDb();
 
-    const createdLocation = await prisma.location.create({
-      data: {
-        name,
-        description,
-        location,
-      },
-    });
-
+    const createdLocation = await createLocation(name, description, location);
+    
     return NextResponse.json(createdLocation, { status: 200 });
-  } catch (e: any) {
+  } catch (e) {
     return NextResponse.json({ e }, { status: 401 });
-  } finally {
-    prisma.$disconnect();
   }
 };
 
 export const GET = async () => {
   try {
-    await connectToDb();
-
-    const locations = await prisma.location.findMany({
-      include: {
-        courts: true,
-      },
-    });
+    const locations = await getAllLocations();
 
     return NextResponse.json(locations, { status: 200 });
-  } catch (e: any) {
+  } catch (e) {
     return NextResponse.json({ e }, { status: 500 });
-  } finally {
-    prisma.$disconnect();
   }
 };

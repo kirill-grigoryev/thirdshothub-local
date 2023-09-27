@@ -1,9 +1,7 @@
 export const generateStaticParams = async () => {
-  const locations = await fetch(`${process.env.URL}/api/location`, {
-    next: { revalidate: 21600 },
-  });
+  const locations = await import('@/app/api/location/route');
 
-  const res = await locations.json();
+  const res = await (await (locations.GET())).json();
 
   return res.map((location: { id: string }) => ({
     slug: location.id,
