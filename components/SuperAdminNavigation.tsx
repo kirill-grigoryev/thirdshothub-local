@@ -1,5 +1,6 @@
-import { signOut } from "next-auth/react";
-import { NavbarItemLink } from "./NavbarItemLink";
+import { signOut } from 'next-auth/react';
+
+import { NavbarItemLink } from './NavbarItemLink';
 
 type PropTypes = {
   path: string;
@@ -57,7 +58,7 @@ const SuperAdminNavigation = ({ path }: PropTypes) => {
         }
       />
 
-    <NavbarItemLink
+      <NavbarItemLink
         path={`/${path}/dashboard/admins`}
         text="Admins"
         icon={

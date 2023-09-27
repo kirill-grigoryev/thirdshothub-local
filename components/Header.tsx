@@ -1,8 +1,9 @@
-'use client'
+'use client';
 
-import Link from "next/link";
-import SignOutButton from "./SignOutButton";
-import { useSession } from "next-auth/react";
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+
+import SignOutButton from './SignOutButton';
 
 const Header = () => {
   const session = useSession();
